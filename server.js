@@ -26,7 +26,7 @@ const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
   try {
-    // run.dbConnection();
+    run()
     console.log(`Server is running on port ${PORT}`);
   } catch (error) {
     console.error('Error connecting to the database:', error);

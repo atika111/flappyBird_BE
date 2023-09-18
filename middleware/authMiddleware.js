@@ -2,7 +2,9 @@ const bcrypt = require("bcrypt");
 const User = require("../models/User");
 
 const passwordMatch = (req, res, next) => {
-    const isMatch = req.body.password !== req.body.repPassword;
+    const repPassword = req.body.repPassword
+    if(!repPassword) return res.status(400).send('Please, provide repPassword field')
+    const isMatch = req.body.password !== repPassword;
     if (isMatch) {
       return res
         .status(400)
