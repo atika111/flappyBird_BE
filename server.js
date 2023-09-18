@@ -2,6 +2,8 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const cookieParser = require('cookie-parser')
+
 const run = require('./config/dbConn');
 const { globalErrorHandler } = require('./middleware/globalErrorHandler');
 
@@ -9,7 +11,9 @@ const { globalErrorHandler } = require('./middleware/globalErrorHandler');
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.static('public'));
+
 
 // Routes setup
 const authRoute = require('./routes/authRoutes');

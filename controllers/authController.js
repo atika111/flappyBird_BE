@@ -1,6 +1,7 @@
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
 const User = require("../models/User");
-const fs = require("fs");
-const path = require("path");
 
 async function signUp(req, res) {
   try {
@@ -13,7 +14,7 @@ async function signUp(req, res) {
       lastName: user.lastName,
       nickname: user.nickname,
     });
-    res.status(201).send(newUser);
+    res.status(201).send('successfully signed up!');
   } catch (error) {
     if (
       error.code === 11000 &&
@@ -36,18 +37,24 @@ async function signUp(req, res) {
 }
 
 async function logIn(req, res) {
-  console.log("req: ", req.body);
+  const userId = req.body.userId.valueOf()
+  console.log('userId: ', userId);
   try {
-    const user = await User.findById(req.body.userId);
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    res.send({ nickname: user.nickname });
+    const token = jwt.sign(userId, process.env.ACCESS_TOKEN_SECRET)
+    res.cookie('token', token, { httpOnly: true });
+    res.send('Cookie has been saved successfully');
+
   } catch (error) {
     console.error("Error finding user by ID:", error);
     res.status(500).json({ error: "Internal server error" });
   }
+  
+  
 }
 
 module.exports = { signUp, logIn };

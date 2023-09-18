@@ -31,7 +31,7 @@ async function getAllScores(req, res) {
     res.status(201).send(scores);
   } catch (error) {
     console.error("Error getting all scores:", error);
-    res.status(500).send({ error: "Internal server error" });
+     res.status(500).send({ error: "Internal server error" });
   }
 }
 async function getUsersHistoryScores(req, res) {

@@ -7,7 +7,7 @@ const {verifyPassword, passwordMatch} = require('../middleware/authMiddleware')
 router.post('/signup', passwordMatch, authController.signUp)
 
 // READ
-router.get('/login', verifyPassword, authController.logIn)
+router.post('/login', verifyPassword, authController.logIn)
 
 
 

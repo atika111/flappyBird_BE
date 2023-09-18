@@ -1,17 +1,34 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-const passwordMatch = (req, res, next) => {
-    const repPassword = req.body.repPassword
-    if(!repPassword) return res.status(400).send('Please, provide repPassword field')
-    const isMatch = req.body.password !== repPassword;
-    if (isMatch) {
-      return res
-        .status(400)
-        .send("Incorrect password. Please double-check your password.");
+const verifyToken = (req, res, next) => {
+  if (!req.headers.authorization) {
+    return res.status(401).send("Authorization headers required");
+  }
+  const token = req.headers.authorization.replace("Bearer ", "");
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).send("Invalid token");
     }
-    next();
-  };
+    req.body.userId = decoded.id;
+  });
+  next();
+};
+
+const passwordMatch = (req, res, next) => {
+  const repPassword = req.body.repPassword;
+  if (!repPassword)
+    return res.status(400).send("Please, provide repPassword field");
+  const isMatch = req.body.password !== repPassword;
+  if (isMatch) {
+    return res
+      .status(400)
+      .send("Incorrect password. Please double-check your password.");
+  }
+  next();
+};
 
 const verifyPassword = async (req, res, next) => {
   try {
@@ -29,7 +46,7 @@ const verifyPassword = async (req, res, next) => {
     next();
   } catch (error) {
     console.log("error: ", error);
-  } 
+  }
 };
 
-module.exports = { verifyPassword, passwordMatch };
+module.exports = { verifyPassword, passwordMatch, verifyToken };
