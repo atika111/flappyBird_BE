@@ -69,7 +69,7 @@ function logOut(req, res) {
 
 async function getUserByToken(req, res) {
   const cookies = req.cookies;
-  if (!cookies?.token) res.status(401).send('Token required.');
+  if (!cookies?.token) return res.status(401).send('Token required.');
   const token = cookies.token;
 
   jwt.verify(
@@ -85,7 +85,11 @@ async function getUserByToken(req, res) {
         return res.status(401).json({ message: 'User not found' });
       }
 
-      return res.send({ nickname: user.nickname, userId: user._id });
+      return res.send({
+        nickname: user.nickname,
+        userId: user._id,
+        email: user.email,
+      });
     }
   );
 }
