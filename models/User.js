@@ -17,7 +17,7 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: [true, "Password is required"],
-    minlength: [8, "Password must be at least 8 characters long"],
+    minlength: [6, "Password must be at least 8 characters long"],
   },
   firstName: {
     type: String,
@@ -33,6 +33,13 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Nickname is required"],
     trim: true,
+  },
+  picture: {
+    type: String,
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
   },
 });
 
