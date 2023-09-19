@@ -14,7 +14,7 @@ async function signUp(req, res) {
       lastName: user.lastName,
       nickname: user.nickname,
     });
-    res.status(201).send('successfully signed up!');
+    res.status(201).send("successfully signed up!");
   } catch (error) {
     if (
       error.code === 11000 &&
@@ -37,24 +37,29 @@ async function signUp(req, res) {
 }
 
 async function logIn(req, res) {
-  const userId = req.body.userId.valueOf()
-  console.log('userId: ', userId);
+  const userId = req.body.userId.valueOf();
   try {
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const token = jwt.sign(userId, process.env.ACCESS_TOKEN_SECRET)
-    res.cookie('token', token, { httpOnly: true });
-    res.send('Cookie has been saved successfully');
-
+    const userData = {
+      nickname: user.nickname,
+      userId: userId,
+    };
+    const token = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET);
+    res.cookie("token", token, { httpOnly: true });
+    res.send(userData);
   } catch (error) {
     console.error("Error finding user by ID:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-  
-  
 }
 
-module.exports = { signUp, logIn };
+function logOut(req, res) {
+  res.clearCookie("token");
+  res.send("Cookie has been deleted successfully");
+}
+
+module.exports = { signUp, logIn, logOut };

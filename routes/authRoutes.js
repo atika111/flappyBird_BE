@@ -5,9 +5,10 @@ const {verifyPassword, passwordMatch} = require('../middleware/authMiddleware')
 
 // CREATE
 router.post('/signup', passwordMatch, authController.signUp)
+router.post('/login', verifyPassword, authController.logIn)
 
 // READ
-router.post('/login', verifyPassword, authController.logIn)
+router.get('/logout', authController.logOut)
 
 
 
