@@ -7,9 +7,15 @@ const cookieParser = require('cookie-parser')
 const run = require('./config/dbConn');
 const { globalErrorHandler } = require('./middleware/globalErrorHandler');
 
+const allowedOrigin = 'http://localhost:5173'
+
+const corsOptions = {
+  origin: allowedOrigin,
+  credentials: true, // Enable credentials (cookies)
+};
 // Global Middleware
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static('public'));
