@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 const verifyToken = (req, res, next) => {
   const cookies = req.cookies;
-  if (!cookies?.token) res.status(401).send('Token required.');
+  if (!cookies?.token) return res.status(401).send('Token required.');
   const token = cookies.token;
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
