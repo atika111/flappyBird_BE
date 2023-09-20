@@ -58,6 +58,7 @@ async function logIn(req, res) {
       userId: user._id,
       nickname: user.nickname,
       email: user.email,
+      admin: user.isAdmin
       picture: user.picture
     });
   } catch (error) {
@@ -93,6 +94,7 @@ async function getUserByToken(req, res) {
         nickname: user.nickname,
         userId: user._id,
         email: user.email,
+        admin: user.isAdmin
       });
     }
   );
