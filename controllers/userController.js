@@ -24,7 +24,7 @@ async function deleteUser(req, res) {
 
 async function updateUser(req, res) {
     try {
-        const userId = req.params.id
+        const userId = req.params.id 
         const updatedUserData = req.body
 
         const updatedUser = await User.findByIdAndUpdate(userId, updatedUserData, {

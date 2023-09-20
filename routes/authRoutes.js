@@ -1,18 +1,24 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const authController = require('../controllers/authController');
+const authController = require("../controllers/authController");
 const {
   verifyPassword,
   passwordMatch,
   getUserByToken,
-} = require('../middleware/authMiddleware');
+} = require("../middleware/authMiddleware");
+const upload = require("../middleware/imagesMiddleware");
 
 // CREATE
-router.post('/signup', passwordMatch, authController.signUp);
-router.post('/login', verifyPassword, authController.logIn);
+router.post(
+  "/signup",
+  upload.single("avatar"),
+  passwordMatch,
+  authController.signUp
+);
+router.post("/login", verifyPassword, authController.logIn);
 
 // READ
-router.get('/logout', authController.logOut);
-router.get('/current-user', authController.getUserByToken);
+router.get("/logout", authController.logOut);
+router.get("/current-user", authController.getUserByToken);
 
 module.exports = router;

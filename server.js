@@ -3,6 +3,9 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const cookieParser = require('cookie-parser')
+const path = require('path')
+const pathToImagesFolder = path.resolve(__dirname, './images')
+
 
 const run = require('./config/dbConn');
 const { globalErrorHandler } = require('./middleware/globalErrorHandler');
@@ -11,7 +14,7 @@ const allowedOrigin = 'http://localhost:5173'
 
 const corsOptions = {
   origin: allowedOrigin,
-  credentials: true, // Enable credentials (cookies)
+  credentials: true, 
 };
 // Global Middleware
 const app = express();
@@ -19,6 +22,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static('public'));
+// app.use(express.static('/images', pathToImagesFolder));
 
 
 // Routes setup
