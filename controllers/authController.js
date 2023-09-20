@@ -6,7 +6,7 @@ const User = require("../models/User");
 async function signUp(req, res) {
   try {
     const user = req.body;
-    const userImage = req.file.path;
+    const userImage = req?.file?.path;
 
     await User.create({
       email: user.email,
