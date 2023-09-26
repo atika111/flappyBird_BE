@@ -31,9 +31,7 @@ async function signUp(req, res) {
       for (const field in error.errors) {
         validationErrors[field] = error.errors[field].message;
       }
-      res
-        .status(400)
-        .send({ error: Object.values(validationErrors).join(',') });
+      res.status(400).send({ error: validationErrors });
     } else {
       console.error('Error creating user:', error);
       res.status(500).send({ error: 'Internal server error' });
